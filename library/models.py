@@ -36,6 +36,7 @@ class Book(BaseModel, DegreeChoice):
     # fields
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to='book_images/')
+    content = RichTextUploadingField()
     price = models.DecimalField(max_digits=20, decimal_places=2)
     old_price = models.DecimalField(max_digits=20, decimal_places=2)
     number_of_pages = models.IntegerField()
