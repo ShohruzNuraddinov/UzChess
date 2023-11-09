@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'ckeditor',
-    ''
     
     # custom-apps
     'user',
