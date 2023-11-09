@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin
 
 
-from .choises import AuthTypeChoise
 from .managers import UserManager
 from utils.models import BaseModel
 # Create your models here.
@@ -19,8 +18,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField(upload_to='profile/', blank=True, null=True)
     birth_date = models.DateTimeField(blank=True, null=True)
-
-    auth_type = models.CharField(max_length=50, choices=AuthTypeChoise.choices)
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['email', 'full_name']

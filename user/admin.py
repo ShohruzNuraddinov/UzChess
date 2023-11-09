@@ -15,7 +15,6 @@ class CustomUserAdmin(UserAdmin):
         'email',
         'birth_date',
         'is_admin',
-        'auth_type',
         'is_active',
 
     ]
@@ -26,7 +25,6 @@ class CustomUserAdmin(UserAdmin):
             'email',
             'full_name',
             'birth_date',
-            'auth_type',
             'image',
             'is_admin',
             'password',
@@ -42,7 +40,6 @@ class CustomUserAdmin(UserAdmin):
                     'email',
                     'full_name',
                     'birth_date',
-                    'auth_type',
                     'image',
                     'is_admin',
                     'password1',

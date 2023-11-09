@@ -11,7 +11,7 @@ class UserManager(BaseUserManager):
             raise ValueError("Error")
 
         user = self.model(
-            email=email,
+            email=self.normalize_email(email=email),
             phone_number=phone_number,
             full_name=full_name
         )

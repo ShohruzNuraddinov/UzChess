@@ -25,13 +25,19 @@ class BookCategory(models.Model):
         return self.title
 
 
-class Book(BaseModel, DegreeChoice):
+class Book(BaseModel):
     # relations
-    category = models.ForeignKey(BookCategory, on_delete=models.CASCADE, related_name='books')
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='author_books')
+    category = models.ForeignKey(
+        BookCategory, on_delete=models.CASCADE, related_name='books'
+    )
+    author = models.ForeignKey(
+        Author, on_delete=models.CASCADE, related_name='author_books'
+    )
 
     # choice fields
-    degree = models.CharField(max_length=20, choices=DegreeChoice.choices, default=DegreeChoice.initial)
+    degree = models.CharField(
+        max_length=20, choices=DegreeChoice.choices, default=DegreeChoice.initial
+    )
 
     # fields
     title = models.CharField(max_length=255)
