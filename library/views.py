@@ -17,7 +17,7 @@ class BookListCreateView(ListCreateAPIView):
     search_fields = ['title', 'price']
 
 
-class BookListCreateView(ListAPIView):
+class BookQueryListView(ListAPIView):
     serializer_class = BookSerializer
 
     def get_queryset(self):
