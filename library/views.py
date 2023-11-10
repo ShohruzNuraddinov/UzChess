@@ -1,5 +1,8 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
+from rest_framework.filters import SearchFilter
+
+from django.db.models import Q
 
 from .models import Book, Author, BookCategory
 from .serializers import BookSerializer, AuthorSerializer, BookCategorySerializer, TopRecommendBookSerializer
@@ -8,7 +11,23 @@ from .serializers import BookSerializer, AuthorSerializer, BookCategorySerialize
 class BookListCreateView(ListCreateAPIView):
     queryset = Book.objects.all().order_by('created_at')
     serializer_class = BookSerializer
+
     parser_classes = [FormParser, MultiPartParser]
+    filter_backends = [SearchFilter]
+    search_fields = ['title', 'price']
+
+
+class BookListCreateView(ListAPIView):
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+        search_query = self.request.query_params.get('search')
+        if search_query:
+            return Book.objects.filter(
+                Q(title__icontains=search_query) | Q(author__full_name__icontains=search_query) |
+                Q(price__icontains=search_query) | Q(old_price__icontains=search_query)
+            )
+        return Book.objects.all().order_by('created_at')
 
 
 class BookDetailView(RetrieveUpdateDestroyAPIView):
