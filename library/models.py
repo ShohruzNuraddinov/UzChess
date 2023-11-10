@@ -47,6 +47,7 @@ class Book(BaseModel):
     old_price = models.DecimalField(max_digits=20, decimal_places=2)
     number_of_pages = models.IntegerField()
     is_top = models.BooleanField(default=False)
+    is_recommend = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.author} - {self.title}"
