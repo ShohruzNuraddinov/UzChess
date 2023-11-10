@@ -1,4 +1,4 @@
-from rest_framework.generics import ListCreateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 
 from .models import Book, Author, BookCategory
@@ -7,6 +7,12 @@ from .serializers import BookSerializer, AuthorSerializer, BookCategorySerialize
 
 class BookListCreateView(ListCreateAPIView):
     queryset = Book.objects.all().order_by('created_at')
+    serializer_class = BookSerializer
+    parser_classes = [FormParser, MultiPartParser]
+
+
+class BookDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Book.objects.all()
     serializer_class = BookSerializer
     parser_classes = [FormParser, MultiPartParser]
 
