@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'user',
     'news',
     'library',
+    'course'
 ]
 
 MIDDLEWARE = [

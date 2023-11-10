@@ -1,11 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from django.core.cache import cache
 from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
 
 
-from .serializers import RegisterUserPhoneNumberSerailzier, RegisterUserEmailSerailzier, VerifyPhoneNumberCodeSerializer, VerifyEmailCodeSerializer, SetPasswordSerailizer
+from .serializers import (
+    RegisterUserPhoneNumberSerailzier,
+    RegisterUserEmailSerailzier,
+    VerifyPhoneNumberCodeSerializer,
+    VerifyEmailCodeSerializer,
+    SetPasswordSerailizer,
+    PhoneNumberResetPasswordSerailizer,
+    PhoneNumberVerifyResetPasswordSertailizder,
+    PhoneNumberResetPasswordSetSerailizer
+)
 from .models import CustomUser
 from .generators import generate_auth_session, generate_verification_code
 from .message_sender import send_verification_code_email, send_verification_code_sms
@@ -173,3 +182,111 @@ class SetPasswordView(generics.GenericAPIView):
         # session_data.update(user.get_tokens())
 
         return Response(session_data, status=status.HTTP_201_CREATED)
+
+
+class PhoneNumberPasswordResetView(generics.GenericAPIView):
+    serializer_class = PhoneNumberResetPasswordSerailizer
+
+    def post(self, request):
+        serailizer = self.get_serializer(data=request.data)
+        serailizer.is_valid(raise_exception=True)
+
+        phone_number = serailizer.validated_data['phone_number']
+        user = serailizer.validated_data['user']
+
+        if cache.get(phone_number, None) is not None:
+            return Response(
+                data={"error": _(
+                    "Code is already sent. Please, wait a while before continue")},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        session = generate_auth_session()
+        code = generate_verification_code()
+
+        # cache.set(session, code, 120)
+
+        send_verification_code_sms(phone_number=phone_number, code=code)
+
+        phone_number_data = {
+            'session': session,
+            'code': code
+        }
+
+        cache.set(phone_number, phone_number_data, 120)
+        cache.set(session, {'user_id': user.id}, 600)
+
+        return Response(data={'session': session}, status=status.HTTP_200_OK)
+
+
+class PhoneNumberresetPasswordVerifyView(generics.GenericAPIView):
+    serializer_class = PhoneNumberVerifyResetPasswordSertailizder
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        phone_number = serializer.validated_data['phone_number']
+        session = serializer.validated_data['session']
+        code = serializer.validated_data['code']
+
+        cache_data = cache.get(phone_number, None)
+
+        if cache_data is None:
+            return Response(
+                data={"error": _(
+                    "Code is expired or Incorrect phone number was entered")},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if code != cache_data['code']:
+            return Response(data={'error': "Incorrect Code"}, status=status.HTTP_400_BAD_REQUEST)
+
+        session_data = cache.get(session, None)
+        session_data.update({'is_verify': True})
+        cache.set(session, session_data, 600)
+
+        # print(cache.get(session))
+
+        return Response(
+            data={
+                "message": _("Confirmed successfully!"),
+                'session': _(session)
+            },
+            status=status.HTTP_200_OK
+        )
+
+
+class PhoneNumberResetPasswordView(generics.GenericAPIView):
+    serializer_class = PhoneNumberResetPasswordSetSerailizer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        session = serializer.validated_data['session']
+        password = serializer.validated_data['password']
+
+        session_data = cache.get(session)
+
+        if not session_data['is_verify']:
+            return Response(
+                data={
+                    'error': "Not Confirmed"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        user = get_object_or_404(
+            CustomUser.objects.all(), id=session_data['user_id'])
+        user.set_password(password)
+        user.save()
+
+        return Response(
+            data={
+                'message': _("Successfully changed")
+            },
+            status=status.HTTP_200_OK
+        )
+
+

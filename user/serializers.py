@@ -1,5 +1,6 @@
-from rest_framework import serializers
+from django.db import models
 from django.utils.translation import gettext_lazy as _
+from rest_framework import serializers
 from rest_framework.validators import ValidationError
 
 from .models import CustomUser
@@ -83,3 +84,41 @@ class SetPasswordSerailizer(serializers.Serializer):
             return ValidationError({"error": _("Passwords does not match!")})
 
         return attrs
+
+
+class PhoneNumberResetPasswordSerailizer(serializers.Serializer):
+    phone_number = serializers.CharField()
+
+    def validate(self, data):
+        phone_number = data.get('phone_number', None)
+
+        user = CustomUser.objects.filter(phone_number=phone_number)
+        if not user.exists():
+            raise ValidationError(
+                {"phone_number": _("No user was found with this phone number")})
+
+        data.update({'user': user.first()})
+        return data
+
+
+class PhoneNumberVerifyResetPasswordSertailizder(serializers.Serializer):
+    phone_number = serializers.CharField()
+    session = serializers.CharField()
+    code = serializers.CharField()
+
+
+class PhoneNumberResetPasswordSetSerailizer(serializers.Serializer):
+    session = serializers.CharField()
+    password = serializers.CharField(required=True)
+
+
+class ProfileSerailizer(serializers.ModelSerializer):
+    image = serializers.ImageField()
+    class Meta:
+        model = CustomUser
+        fields = [
+            'id',
+            'full_name',
+            'image',
+            'birth_date'
+        ]
