@@ -34,7 +34,8 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('api/v1/', include('user.urls')),
-    path('api/v1/news', include('news.urls')),
+    path('api/v1/news/', include('news.urls')),
+    path('api/v1/cart/', include('cart.urls')),
     path('api/v1/library/', include('library.urls')),
 ]
 

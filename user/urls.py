@@ -12,7 +12,8 @@ from .views import (
     SetPasswordView,
     PhoneNumberPasswordResetView,
     PhoneNumberresetPasswordVerifyView,
-    PhoneNumberResetPasswordView
+    PhoneNumberResetPasswordView,
+    ProfileUserView
 )
 
 urlpatterns = [
@@ -32,6 +33,6 @@ urlpatterns += [
     path('phone/password/reset/', PhoneNumberPasswordResetView.as_view()),
     path('phone/password/reset/verify/',
          PhoneNumberresetPasswordVerifyView.as_view()),
-    path('phone/password/reset/set/', PhoneNumberResetPasswordView.as_view())
-
+    path('phone/password/reset/set/', PhoneNumberResetPasswordView.as_view()),
+    path('profile/<int:pk>/', ProfileUserView.as_view())
 ]

@@ -25,6 +25,9 @@ class Course(models.Model):
     lesson_count = models.IntegerField()
     comment_count = models.IntegerField()
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class Lesson(models.Model):
     cours = models.ForeignKey(Course, on_delete=models.CASCADE)

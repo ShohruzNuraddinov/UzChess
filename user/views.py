@@ -13,7 +13,8 @@ from .serializers import (
     SetPasswordSerailizer,
     PhoneNumberResetPasswordSerailizer,
     PhoneNumberVerifyResetPasswordSertailizder,
-    PhoneNumberResetPasswordSetSerailizer
+    PhoneNumberResetPasswordSetSerailizer,
+    ProfileSerailizer
 )
 from .models import CustomUser
 from .generators import generate_auth_session, generate_verification_code
@@ -290,3 +291,7 @@ class PhoneNumberResetPasswordView(generics.GenericAPIView):
         )
 
 
+
+class ProfileUserView(generics.RetrieveUpdateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = ProfileSerailizer
