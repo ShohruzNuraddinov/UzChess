@@ -95,6 +95,15 @@ DATABASES = {
     }
 }
 
+# CASHE
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -169,7 +178,7 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'user.CustomUser'
 
 AUTHENTICATION_BACKENDS = [
-    'user.backends.EmailPhoneUsernameAuthenticationBackend'
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 SIMPLE_JWT = {
@@ -178,7 +187,7 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
-    'TOKEN_OBTAIN_SERIALIZER': 'users.serializers.UserLoginSerializer',  # new
+    # 'TOKEN_OBTAIN_SERIALIZER': 'users.serializers.UserLoginSerializer',  # new
 
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,

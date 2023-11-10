@@ -1,5 +1,6 @@
 from django.contrib.auth.models import BaseUserManager
 from django.core.validators import validate_email
+from django.db import models
 
 
 class UserManager(BaseUserManager):
@@ -31,3 +32,9 @@ class UserManager(BaseUserManager):
         user.is_admin = True
         user.save(using=self._db)
         return user
+
+    def get_by_natural_key(self, username):
+        return self.get(
+            models.Q(email__iexact=username) |
+            models.Q(phone_number__iexact=username)
+        )
