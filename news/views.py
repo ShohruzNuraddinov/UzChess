@@ -2,8 +2,7 @@ from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, L
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser
 
-from django.db.models import Q
-from hitcount.models import HitCount
+from django.db.models import Q, F
 
 from .models import New, Tag
 from .serializers import NewSerializer, TagSerializer
@@ -26,10 +25,16 @@ class NewsDetailAPIView(RetrieveUpdateDestroyAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance)
+        print(instance, "User:", request.user.id)
 
-        if request.user.is_authenticated:
-            New.objects.update_or_create(news=instance, user=request.user)
+
+        New.objects.filter(id=self.kwargs['pk']).update(view=F('view') + 1, user=request.user.id)
+        serializer = self.get_serializer(instance)
+        # if request.user.is_authenticated:
+        #     New.objects.update_or_create(news=instance, user=request.user)
+        #     New.objects.filter(id=self.kwargs['pk']).update(view=F('view') + 1)
+
+            # return Response(serializer.data)
 
         return Response(serializer.data)
 
@@ -43,5 +48,6 @@ class NewQueryListAPIView(ListAPIView):
         if search_query:
             return New.objects.filter(
                 Q(title__icontains=search_query) | Q(content__icontains=search_query)
-            )
-        return New.objects.all().order_by('-created_at')
+            ).order_by('-created_at')
+
+        return {"message": "Hech qanday ma’lumot topilmadi!"}
