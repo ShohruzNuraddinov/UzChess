@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     "debug_toolbar",  # new debug tool bar
+    'hitcount',
 
     # custom-apps
     'user',
