@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'ckeditor',
     'ckeditor_uploader',
+    'hitcount',
 
     # custom-apps
     'user',

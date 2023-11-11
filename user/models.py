@@ -30,7 +30,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def __str__(self):
-        return self.full_name
+        return f"{self.email}-{self.phone_number}"
 
     @classmethod
     def is_phone_number_available(cls, phone_number):
