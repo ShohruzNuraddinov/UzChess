@@ -37,6 +37,8 @@ urlpatterns = [
     path('api/v1/news/', include('news.urls')),
     path('api/v1/cart/', include('cart.urls')),
     path('api/v1/library/', include('library.urls')),
+
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 if settings.DEBUG:
