@@ -1,5 +1,7 @@
 from django.db import models
 
+from user.models import CustomUser as User
+
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
@@ -17,6 +19,7 @@ class Course(models.Model):
     price = models.IntegerField()
     image = models.ImageField(upload_to='Course')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    users = models.ManyToManyField(User)
     degree = models.CharField(max_length=50, choices=Degre)
 
     rating = models.FloatField()

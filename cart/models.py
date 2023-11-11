@@ -17,4 +17,4 @@ class CartItem(BaseModel):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return str(self.user.id) + ' ' + str(self.quantity)
+        return str(self.user) + ' ' + str(self.quantity)

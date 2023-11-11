@@ -4,9 +4,10 @@ from rest_framework import serializers
 from .models import CartItem
 from course.serializers import CourseSerializera
 from library.serializers import BookSerializer
+from user.models import CustomUser as User
 
 
-class CartItemCreateSerailizer(serializers.ModelSerializer):
+class CartItemCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = [
@@ -17,7 +18,7 @@ class CartItemCreateSerailizer(serializers.ModelSerializer):
         ]
 
 
-class CartItemgetSerailizer(serializers.ModelSerializer):
+class CartItemgetSerializer(serializers.ModelSerializer):
     course = CourseSerializera()
     book = BookSerializer()
     sum = serializers.FloatField()
@@ -33,3 +34,9 @@ class CartItemgetSerailizer(serializers.ModelSerializer):
             'sum',
             'sum_book'
         ]
+
+
+class UserCartItemGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
