@@ -1,3 +1,4 @@
+from rest_framework import filters
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -17,6 +18,8 @@ class NewsListAPIView(ListCreateAPIView):
     queryset = New.objects.all().order_by('-created_at')
     serializer_class = NewSerializer
     parser_classes = [FormParser, MultiPartParser]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["title"]
 
 
 class NewsDetailAPIView(RetrieveUpdateDestroyAPIView):
@@ -26,15 +29,12 @@ class NewsDetailAPIView(RetrieveUpdateDestroyAPIView):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         print(instance, "User:", request.user.id)
-
-
-        New.objects.filter(id=self.kwargs['pk']).update(view=F('view') + 1, user=request.user.id)
         serializer = self.get_serializer(instance)
-        # if request.user.is_authenticated:
-        #     New.objects.update_or_create(news=instance, user=request.user)
-        #     New.objects.filter(id=self.kwargs['pk']).update(view=F('view') + 1)
 
-            # return Response(serializer.data)
+        # New.objects.filter(id=self.kwargs['pk']).update(view=F('view') + 1)
+
+        if request.user.is_authenticated:
+            New.objects.filter(id=self.kwargs['pk']).update(view=F('view') + 1)
 
         return Response(serializer.data)
 

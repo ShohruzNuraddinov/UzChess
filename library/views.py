@@ -9,7 +9,7 @@ from .serializers import BookSerializer, AuthorSerializer, BookCategorySerialize
 
 
 class BookListCreateView(ListCreateAPIView):
-    queryset = Book.objects.all().order_by('created_at')
+    queryset = Book.objects.all().order_by('-created_at')
     serializer_class = BookSerializer
 
     parser_classes = [FormParser, MultiPartParser]
@@ -27,7 +27,7 @@ class BookQueryListView(ListAPIView):
                 Q(title__icontains=search_query) | Q(author__full_name__icontains=search_query) |
                 Q(price__icontains=search_query) | Q(old_price__icontains=search_query)
             )
-        return Book.objects.all().order_by('created_at')
+        return Book.objects.all().order_by('-created_at')
 
 
 class BookDetailView(RetrieveUpdateDestroyAPIView):
@@ -52,7 +52,7 @@ class TopBookListView(ListAPIView):
     serializer_class = TopRecommendBookSerializer
 
     def get_queryset(self):
-        top_books = Book.objects.filter(is_top=True).order_by('created_at')
+        top_books = Book.objects.filter(is_top=True).order_by('-created_at')
         return top_books
 
 
@@ -60,5 +60,5 @@ class RecommendBookListView(ListAPIView):
     serializer_class = TopRecommendBookSerializer
 
     def get_queryset(self):
-        recommend_books = Book.objects.filter(is_recommend=True).order_by('created_at')
+        recommend_books = Book.objects.filter(is_recommend=True).order_by('-created_at')
         return recommend_books
