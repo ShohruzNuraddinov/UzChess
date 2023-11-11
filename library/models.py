@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from ckeditor_uploader.fields import RichTextUploadingField
 
@@ -6,9 +7,9 @@ from utils.models import BaseModel
 
 
 class DegreeChoice(models.TextChoices):
-    amateur = "Havaskor"
-    initial = "Boshlang'ich"
-    professional = "Professional"
+    amateur = _("Havaskor")
+    initial = _("Boshlang'ich")
+    professional = _("Professional")
 
 
 class Author(models.Model):
@@ -19,7 +20,7 @@ class Author(models.Model):
 
 
 class BookCategory(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(_("Title"), max_length=255)
 
     def __str__(self):
         return self.title
@@ -40,9 +41,9 @@ class Book(BaseModel):
     )
 
     # fields
-    title = models.CharField(max_length=255)
+    title = models.CharField(_("Title"), max_length=255)
     image = models.ImageField(upload_to='book_images/')
-    content = RichTextUploadingField()
+    content = RichTextUploadingField(_("Content"))
     price = models.FloatField()
     old_price = models.FloatField()
     number_of_pages = models.IntegerField()

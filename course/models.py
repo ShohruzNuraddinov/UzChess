@@ -1,10 +1,11 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from user.models import CustomUser as User
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(_("Title"), max_length=255)
     image = models.ImageField(upload_to='Category')
     cours_count = models.IntegerField()
 
@@ -15,7 +16,7 @@ class Course(models.Model):
         ('profesional', 'Profesional'),
         ('havaskor', 'Havaskor'),
     )
-    title = models.CharField(max_length=255)
+    title = models.CharField(_("Title"), max_length=255)
     price = models.IntegerField()
     image = models.ImageField(upload_to='Course')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -34,8 +35,8 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     cours = models.ForeignKey(Course, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    text = models.TextField()
+    title = models.CharField(_("Title"), max_length=255)
+    text = models.TextField(_("Text"))
     url = models.URLField()
     image = models.ImageField(upload_to='Lesson')
 
@@ -43,7 +44,7 @@ class Lesson(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey("user.CustomUser", on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    text = models.TextField()
+    text = models.TextField(_("Text"))
     rate = models.IntegerField()
 
 
@@ -56,4 +57,4 @@ class Complaint(models.Model):
     user = models.ForeignKey("user.CustomUser", on_delete=models.CASCADE)
     cours = models.ForeignKey(Course, on_delete=models.CASCADE)
     complaint = models.CharField(max_length=50, choices=demo)
-    text = models.CharField(max_length=300)
+    text = models.CharField(_("Text"), max_length=300)

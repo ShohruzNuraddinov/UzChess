@@ -13,6 +13,8 @@ from datetime import timedelta
 from pathlib import Path
 from environs import Env
 
+from django.utils.translation import gettext_lazy as _
+
 env = Env()
 env.read_env()
 
@@ -33,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -153,6 +156,17 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+LANGUAGES = (
+    ("en", _("English")),
+    ("uz", _("Uzbek")),
+    ("ru", _("Russian")),
+)
+
+# a locale path directory for the application where message files will reside:
+LOCALE_PATHS = [
+    BASE_DIR / "locale/",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
