@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'ckeditor',
     'ckeditor_uploader',
-    "debug_toolbar",  # new debug tool bar
+    "debug_toolbar",  # new debug toolbar
     'hitcount',
 
     # custom-apps
