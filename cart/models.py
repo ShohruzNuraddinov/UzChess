@@ -2,10 +2,13 @@ import datetime
 from django.db import models
 from django.utils.crypto import get_random_string
 
+from django.utils.translation import gettext_lazy as _
+
 from utils.models import BaseModel
 from user.models import CustomUser as User
 from course.models import Course
 from library.models import Book
+
 
 # Create your models here.
 
@@ -24,10 +27,10 @@ class CartItem(BaseModel):
         return str(self.user) + ') ' + self.book.title + ' ' + str(self.quantity)
 
 
-class OrderStatusChoise(models.Choices):
-    pending = "Pending"
-    delivered = "Delivered"
-    canceled = "Canceled"
+class OrderStatusChoice(models.Choices):
+    pending = _("Pending")
+    delivered = _("Delivered")
+    canceled = _("Canceled")
 
 
 class Order(BaseModel):
@@ -43,8 +46,8 @@ class Order(BaseModel):
     email = models.CharField(max_length=255)
 
     status = models.CharField(
-        max_length=50, choices=OrderStatusChoise.choices, default=OrderStatusChoise.pending
+        max_length=50, choices=OrderStatusChoice.choices, default=OrderStatusChoice.pending
     )
 
     def __str__(self):
-        return self.full_name + ' ' + self.phone_number + ' ' + self.status
+        return f"{self.full_name} {self.phone_number} {self.status}"
