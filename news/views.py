@@ -3,7 +3,7 @@ from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, L
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser
 
-from django.db.models import Q, F
+from django.db.models import Q
 
 from .models import New, Tag, NewsView
 from .serializers import NewSerializer, TagSerializer
@@ -28,9 +28,10 @@ class NewsDetailAPIView(RetrieveUpdateDestroyAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        print(instance, "User:", request.user.id)
         serializer = self.get_serializer(instance)
+
         device_id = self.request.META.get("HTTP_USER_AGENT", "")
+        # print("Device ID: ", device_id)
 
         if request.user.is_authenticated:
             if device_id is not None:

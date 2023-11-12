@@ -10,9 +10,9 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class NewSerializer(serializers.ModelSerializer):
-    views = serializers.SerializerMethodField()
+    view = serializers.SerializerMethodField()
 
-    def get_views(self, news):
+    def get_view(self, news):
         return news.newsview_set.all().count()
 
     class Meta:
