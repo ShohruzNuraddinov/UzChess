@@ -10,7 +10,10 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class NewSerializer(serializers.ModelSerializer):
-    # view = serializers.IntegerField(source='hit_count.hits', read_only=True)
+    views = serializers.SerializerMethodField()
+
+    def get_views(self, news):
+        return news.newsview_set.all().count()
 
     class Meta:
         model = New
