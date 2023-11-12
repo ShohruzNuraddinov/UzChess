@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-12 09:02+0000\n"
+"POT-Creation-Date: 2023-11-12 09:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,15 +20,15 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: cart/models.py:30
+#: cart/models.py:31
 msgid "Pending"
 msgstr ""
 
-#: cart/models.py:31
+#: cart/models.py:32
 msgid "Delivered"
 msgstr ""
 
-#: cart/models.py:32
+#: cart/models.py:33
 msgid "Canceled"
 msgstr ""
 

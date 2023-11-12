@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,7 +53,6 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     "debug_toolbar",  # new debug toolbar
     'hitcount',
-    'modeltranslation',
 
     # custom-apps
     'user',
@@ -70,7 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",  # new debug tool bar
+    "debug_toolbar.middleware.DebugToolbarMiddleware",  # new debug toolbar
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -165,7 +165,7 @@ LANGUAGES = (
 
 # a locale path directory for the application where message files will reside:
 LOCALE_PATHS = [
-    BASE_DIR / "locale/",
+    BASE_DIR / "locale",
 ]
 
 # Default primary key field type
