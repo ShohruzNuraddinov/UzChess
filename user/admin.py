@@ -18,6 +18,7 @@ class CustomUserAdmin(UserAdmin):
         'is_active',
 
     ]
+    list_display_links = ['full_name', 'phone_number', 'email']
     list_filter = []
     fieldsets = [
         (None, {"fields": [
