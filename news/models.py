@@ -19,7 +19,6 @@ class Tag(models.Model):
 class New(BaseModel):
     # relations
     tag = models.ManyToManyField(Tag)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='news')
 
     # fields
     title = models.CharField(_("Title"), max_length=255)
@@ -29,3 +28,12 @@ class New(BaseModel):
 
     def __str__(self):
         return self.title
+
+
+class NewsView(BaseModel):
+    device_id = models.CharField(max_length=200)
+    news = models.ForeignKey(New, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.device_id

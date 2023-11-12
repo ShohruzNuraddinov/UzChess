@@ -5,7 +5,7 @@ from rest_framework.parsers import FormParser, MultiPartParser
 
 from django.db.models import Q, F
 
-from .models import New, Tag
+from .models import New, Tag, NewsView
 from .serializers import NewSerializer, TagSerializer
 
 
@@ -30,11 +30,16 @@ class NewsDetailAPIView(RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
         print(instance, "User:", request.user.id)
         serializer = self.get_serializer(instance)
-
-        # New.objects.filter(id=self.kwargs['pk']).update(view=F('view') + 1)
+        device_id = self.request.META.get("HTTP_USER_AGENT", "")
 
         if request.user.is_authenticated:
-            New.objects.filter(id=self.kwargs['pk']).update(view=F('view') + 1)
+            if device_id is not None:
+                NewsView.objects.update_or_create(news=instance, user=request.user, device_id=device_id)
+
+            NewsView.objects.update_or_create(news=instance, user=request.user)
+
+        elif device_id is not None:
+            NewsView.objects.update_or_create(news=instance, device_id=device_id)
 
         return Response(serializer.data)
 
