@@ -5,7 +5,12 @@ from rest_framework.filters import SearchFilter
 from django.db.models import Q
 
 from .models import Book, Author, BookCategory
-from .serializers import BookSerializer, AuthorSerializer, BookCategorySerializer, TopRecommendBookSerializer
+from .serializers import (
+    BookSerializer,
+    AuthorSerializer,
+    BookCategorySerializer,
+    TopRecommendBookSerializer
+)
 
 
 class BookListCreateView(ListCreateAPIView):

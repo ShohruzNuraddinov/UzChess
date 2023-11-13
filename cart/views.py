@@ -4,11 +4,15 @@ from rest_framework.response import Response
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .serializers import CartItemCreateSerializer, UserCartItemGetSerializer, CartItemUpdateSerializer, OrderCreateSeializer, UserOrderSerializer
+from .serializers import (
+    CartItemCreateSerializer,
+    UserCartItemGetSerializer,
+    CartItemUpdateSerializer,
+    OrderCreateSeializer,
+    UserOrderSerializer
+)
 from .models import CartItem, Order
 from user.models import CustomUser as User
-
-# Create your views here.
 
 
 class CreateCartItemView(generics.GenericAPIView):

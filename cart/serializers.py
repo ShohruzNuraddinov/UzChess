@@ -4,7 +4,7 @@ from rest_framework.validators import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from .models import CartItem, Order
-from course.serializers import CourseSerializera
+from course.serializers import CourseSerializers
 from library.serializers import BookSerializer
 from user.models import CustomUser as User
 
