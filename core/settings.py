@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'library',
     'course',
     'cart',
+    'common',
 ]
 
 MIDDLEWARE = [
