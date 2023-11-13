@@ -6,7 +6,6 @@ from .serializers import CourseSerializers, LessonSerializers, CommentSerializer
 from rest_framework.pagination import PageNumberPagination
 
 from django_filters import rest_framework as django_filters
-from .filter import CourseFilter
 
 
 class PagePagination(PageNumberPagination):
@@ -18,7 +17,6 @@ class CourseViews(generics.ListCreateAPIView):
     serializer_class = CourseSerializers
 
     filter_backends = (django_filters.DjangoFilterBackend, filters.SearchFilter)
-    filterset_class = CourseFilter
     search_fields = ['title']
 
     pagination_class = PagePagination
