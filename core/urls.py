@@ -34,7 +34,7 @@ urlpatterns = i18n_patterns(
     path('api/v1/cart/', include('cart.urls')),
     path('api/v1/library/', include('library.urls')),
     path('api/v1/course/', include('course.urls')),
-    path('api/v1/contact/', include('common.urls')),
+    path('api/v1/common/', include('common.urls')),
 
     path("__debug__/", include("debug_toolbar.urls")),
 )
