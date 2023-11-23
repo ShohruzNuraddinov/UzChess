@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     "debug_toolbar",  # new debug toolbar
     'hitcount',
 
-    # custom-apps
+    # CUSTOM-APPS
     'user',
     'news',
     'library',
